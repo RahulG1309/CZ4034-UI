@@ -1,4 +1,7 @@
 async function myFunc() {
+    // wordcloud = document.getElementById("chartdiv");
+    // wordcloud.style.display = "none";
+    //Hide the Word Cloud
     let url = 'http://localhost:8983/solr/tweets/query?defType=dismax&indent=true&rows=100&df=Text&fl=*,score&debugQuery=true&q.op=OR&q=';
     let query = document.getElementById('userSearchQuery');
     //url = url + query.value
@@ -65,7 +68,6 @@ async function myFunc() {
 
     var resultsDiv = document.getElementById("results");
     resultsDiv.innerHTML = div.innerHTML + noOfDocs + " Docs found in " + querySpeed + " milliseconds!";
-    resultsDiv.style.textAlign = "center";
     //The (preparationTime + processingTime) can also be used here
 
     var divContainer = document.getElementById("resultsDiv");

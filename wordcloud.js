@@ -29,15 +29,17 @@ am5.ready(async function() {
       }) 
     }, 5000) 
      
-    let url = "http://localhost:8983/solr/tweets/query?q=*:*&q.op=OR&indent=true&facet=true&facet.query=*:*&facet.field=Text"; 
+    let url = "http://localhost:8983/solr/tweets/query?q=*:*&q.op=OR&indent=true&facet=true&facet.field=Text&facet.query=*:*"; 
     var response = await fetch(url); 
     var data = await response.json(); 
     const values = {}; 
     var count = []; 
     var words = []; 
-    for (var i = 0; i < data.facet_counts.facet_fields.text.length; i += 2) { 
-        words.push(data.facet_counts.facet_fields.text[i]); 
-        data.facet_counts.facet_fields.text[i+1] && count.push(data.facet_counts.facet_fields.text[i + 1]); 
+    //console.log(data)
+    console.log(data.facet_counts.facet_fields.Text)
+    for (var i = 0; i < data.facet_counts.facet_fields.Text.length; i += 2) { 
+        words.push(data.facet_counts.facet_fields.Text[i]); 
+        data.facet_counts.facet_fields.Text[i+1] && count.push(data.facet_counts.facet_fields.Text[i + 1]); 
     } 
     var list = []; 
     for(var i=0; i<words.length; i++){ 
