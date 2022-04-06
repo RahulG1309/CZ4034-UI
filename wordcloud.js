@@ -49,9 +49,14 @@ am5.ready(async function() {
     } 
     // Data from: 
     // https://insights.stackoverflow.com/survey/2021#section-most-popular-technologies-programming-scripting-and-markup-languages 
-    for(var i=0; i<words.length; i++){ 
-      series.data.push({ 
-        key : words[i], value : count[i] 
-      }); 
+    for(var i=0; i<words.length; i++){  
+      if (words[i] == "a" || words[i] == "an" || words[i] == "and" || words[i] == "are" || words[i] == "as" || words[i] == "at"|| words[i] == "be"|| words[i] == "but"|| words[i] == "by"|| words[i] == "for"|| words[i] == "if"|| words[i] == "in"|| words[i] == "into"|| words[i] == "is"|| words[i] == "it" || words[i] == "no"|| words[i] == "not"|| words[i] == "of"|| words[i] == "on"|| words[i] == "or"|| words[i] == "such"|| words[i] == "that"|| words[i] == "the"|| words[i] == "their"|| words[i] == "then"|| words[i] == "there" || words[i] == "these"|| words[i] == "they"|| words[i] == "this"|| words[i] == "to"|| words[i] == "was"|| words[i] == "will"|| words[i] == "with"){
+        continue;
+      }else{
+        series.data.push({ 
+          key : words[i], value : count[i] 
+        }); 
+      }
+
     } 
     }); // end am5.ready()
