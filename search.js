@@ -21,7 +21,7 @@ async function myFunc() {
     var querySpeed = data.debug.timing.time;
     //To measure the speed of querying
     // let displayColumns = ['name', 'username', 'text', 'retweet_count', 'like_count', 'score'];
-    let displayColumns = ['Name', 'Username', 'Text', 'score'];
+    let displayColumns = ['Name', 'Username', 'Text', 'score', 'PolarityMeter'];
     myData = myData.map(x => {
       let newObj = {};
       for (col of displayColumns) {
@@ -85,9 +85,21 @@ async function myFunc() {
       body.style.marginBottom = "20px";
       var score = document.createElement("div");
       score.innerHTML = "<b>Query Score: </b>" + row[3].innerHTML;
+      var sentiment = document.createElement("div");
+      sentiment.innerHTML = "<b>Sentiment: </b>" + row[4].innerHTML;
       outerCard.appendChild(title);
       outerCard.appendChild(body);
       outerCard.appendChild(score);
+      outerCard.appendChild(sentiment);
       divContainer.appendChild(outerCard);
+      if(row[4].innerText ==  "Slightly Pro Ukraine" || row[4].innerText ==  "Pro Ukraine"){
+        outerCard.style.backgroundColor = 'AliceBlue';
+      }
+      else if(row[4].innerText ==  "Slightly Pro Russia" || row[4].innerText == "Pro Russia"){
+        outerCard.style.backgroundColor = 'LightPink';
+      }
+      else{
+        outerCard.style.backgroundColor = 'white';
+      }  
     }//Creating a card for each result
   }
