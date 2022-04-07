@@ -8,6 +8,7 @@ async function myFunc() {
     //console.log(url);
     url = url + query.value;
     var div = document.getElementById('resultsDiv');
+    div.innerHTML = "";
     var response = await fetch(url);
     var data = await response.json();
     // console.log(data.response)
