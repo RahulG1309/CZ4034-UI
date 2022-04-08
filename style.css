@@ -68,14 +68,9 @@
     transition: max-height 0.2s ease-out;
     background-color: #f1f1f1;
   }
-
-  .left-half {
-    position: absolute;
-    width: 50%;
-  }
-
-  .right-half {
-    position: absolute;
-    right: 0px;
-    width: 50%;
-  }
+#chartContainer{
+  position:static;
+  object-position: top;
+  vertical-align: top;
+  display: inline-block;
+}
