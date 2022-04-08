@@ -133,10 +133,13 @@ async function myFunc() {
       chart.title("Semantic Category"); 
       // add the data
       chart.data(data);
-      //set legend position
-      chart.legend().position("right");
       //set items layout
-      chart.legend().itemsLayout("vertical");
+      chart.legend().itemsLayout("horizontal");
+        //set legend position
+        //chart.legend().position("bottom");
+        chart.legend().fontSize(10);
+        chart.legend().fontWeight(600);
+        var bounds = chart.bounds(0,0,500,500);
       // display the chart in the container
       chart.container('chartContainer');
       chart.draw();
