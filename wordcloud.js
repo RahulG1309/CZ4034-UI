@@ -29,17 +29,16 @@ am5.ready(async function() {
       }) 
     }, 5000) 
      
-    let url = "http://localhost:8983/solr/tweets/query?q=*:*&q.op=OR&indent=true&facet=true&facet.field=Text&facet.query=*:*"; 
+    let url = "http://localhost:8983/solr/tweets/query?q=*:*&q.op=OR&indent=true&facet=true&facet.field=text&facet.query=*:*"; 
     var response = await fetch(url); 
     var data = await response.json(); 
     const values = {}; 
     var count = []; 
     var words = []; 
-    //console.log(data)
-    console.log(data.facet_counts.facet_fields.Text)
-    for (var i = 0; i < data.facet_counts.facet_fields.Text.length; i += 2) { 
-        words.push(data.facet_counts.facet_fields.Text[i]); 
-        data.facet_counts.facet_fields.Text[i+1] && count.push(data.facet_counts.facet_fields.Text[i + 1]); 
+    //console.log(data.facet_counts.facet_fields.text)
+    for (var i = 0; i < data.facet_counts.facet_fields.text.length; i += 2) { 
+        words.push(data.facet_counts.facet_fields.text[i]); 
+        data.facet_counts.facet_fields.text[i+1] && count.push(data.facet_counts.facet_fields.text[i + 1]); 
     } 
     var list = []; 
     for(var i=0; i<words.length; i++){ 
@@ -50,7 +49,7 @@ am5.ready(async function() {
     // Data from: 
     // https://insights.stackoverflow.com/survey/2021#section-most-popular-technologies-programming-scripting-and-markup-languages 
     for(var i=0; i<words.length; i++){  
-      if (words[i] == "a" || words[i] == "an" || words[i] == "and" || words[i] == "are" || words[i] == "as" || words[i] == "at"|| words[i] == "be"|| words[i] == "but"|| words[i] == "by"|| words[i] == "for"|| words[i] == "if"|| words[i] == "in"|| words[i] == "into"|| words[i] == "is"|| words[i] == "it" || words[i] == "no"|| words[i] == "not"|| words[i] == "of"|| words[i] == "on"|| words[i] == "or"|| words[i] == "such"|| words[i] == "that"|| words[i] == "the"|| words[i] == "their"|| words[i] == "then"|| words[i] == "there" || words[i] == "these"|| words[i] == "they"|| words[i] == "this"|| words[i] == "to"|| words[i] == "was"|| words[i] == "will"|| words[i] == "with"){
+      if (words[i] == "a" || words[i] == "s" || words[i] == "an" || words[i] == "and" || words[i] == "are" || words[i] == "as" || words[i] == "at"|| words[i] == "be"|| words[i] == "but"|| words[i] == "by"|| words[i] == "for"|| words[i] == "if"|| words[i] == "in"|| words[i] == "into"|| words[i] == "is"|| words[i] == "it" || words[i] == "no"|| words[i] == "not"|| words[i] == "of"|| words[i] == "on"|| words[i] == "or"|| words[i] == "such"|| words[i] == "that"|| words[i] == "the"|| words[i] == "their"|| words[i] == "then"|| words[i] == "there" || words[i] == "these"|| words[i] == "they"|| words[i] == "this"|| words[i] == "to"|| words[i] == "was"|| words[i] == "will"|| words[i] == "with" || words[i] == "my" || words[i] == "who") {
         continue;
       }else{
         series.data.push({ 

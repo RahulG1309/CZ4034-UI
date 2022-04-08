@@ -60,61 +60,72 @@
         <button type="button" class="advanced-settings">Advanced Settings</button>
         <div class="advanced-settings-options">
           <label for="searchCat">Choose a Search Category:</label>
-            <select name="searchCat" id="searchCat">
-               <option value="text">Text</option>
-               <option value="name">Name</option>
-               <option value="username">Username</option>
-            </select> <br><br>
+          <select name="searchCat" id="searchCat">
+            <option value="text">Text</option>
+            <option value="name">Name</option>
+            <option value="username">Username</option>
+          </select> <br><br>
 
           <label for="sentimentCat">Choose a Sentiment Category:</label>
-            <select name="sentimentCat" id="sentimentCat">
-               <option value="*">All</option>
-               <option value="neutral">Neutral</option>
-               <option value="ukraine">Pro-Ukraine</option>
-               <option value="russia">Pro-Russia</option>
-            </select> <br><br>
+          <select name="sentimentCat" id="sentimentCat">
+            <option value="*">All</option>
+            <option value="neutral">Neutral</option>
+            <option value="ukraine">Pro-Ukraine</option>
+            <option value="russia">Pro-Russia</option>
+          </select> <br><br>
         </div>
 
       </form>
     </div>
     <br>
+
     <div id="sendNewQuery" class="row">
     </div>
     <br>
-    <div id="result" class="row">
-      <h4 id="resultWord"></h4>
+
+    <div id="resultTitle" class="row">
+      <h4 id="resultTitleText"></h4>
     </div>
+    <!-- For the Title -->
     <br>
-    <div id="results" class="row">
+
+    <div id="resultStats" class="row">
+      <h5 id="resultStatsText"></h5>
     </div>
+    <!-- For the Query Statistics -->
 
     <div class='left-half'>
-        <div id="resultsDiv" class="row">
-        </div>
+      <div id="resultContent" class="row">
+      </div>
     </div>
+    <!-- For the Tweets -->
+
     <div class='right-half'>
-        <div id="chartContainer"></div>
+      <div id="chartContainer" class="row"></div>
     </div>
+    <!-- For the Pie-Charts -->
+
   </div>
+
   <script src="search.js"></script>
   <script src="wordcloud.js"></script>
-  
+
   <script>
     var coll = document.getElementsByClassName("advanced-settings");
     var i;
 
     for (i = 0; i < coll.length; i++) {
-      coll[i].addEventListener("click", function() {
+      coll[i].addEventListener("click", function () {
         this.classList.toggle("active");
         var content = this.nextElementSibling;
-        if (content.style.maxHeight){
+        if (content.style.maxHeight) {
           content.style.maxHeight = null;
         } else {
           content.style.maxHeight = content.scrollHeight + "px";
-        } 
+        }
       });
     }
-    </script>
+  </script>
 </body>
 
 </html>
