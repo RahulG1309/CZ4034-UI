@@ -53,12 +53,18 @@ async function myFunc() {
         sendNewQuery.innerHTML = urlNew;
       }
       else{
-        //var newURL = url1 + suggestedTerm + url2+query.value + url3 + queryFilter.value;
-        //sendNewQuery.innerHTML = "Query not found, did you mean " + "<a href='"+newURL+"'>"+suggestedTerm+"</a>";
-        //sendNewQuery.innerHTML = "Query not found, please try again!"
-        //sendNewQuery.innerHTML = "Query not found, did you mean " + "<a href='"+"'>"+suggestedTerm+"</a>";
-        var suggestedTerm = data.spellcheck.suggestions[1].suggestion[0].word;
-        sendNewQuery.innerHTML = "Query not found , did you mean : " + "<a href='#' id='newSearchTerm' onclick='newSearch()'>"+ suggestedTerm + "</a>";
+                if(data.spellcheck.suggestions.length != 0){
+          var suggestedTerm = data.spellcheck.suggestions[1].suggestion[0].word;
+          sendNewQuery.innerHTML = "Query not found , did you mean : " + "<a href='#' id='newSearchTerm' onclick='newSearch()'>"+ suggestedTerm + "</a>";
+        }
+        else{
+          var num = data.response.numFound;
+          //console.log(num)
+          if(num == 0){
+            sendNewQuery.innerHTML = "Query not found , please type another term";
+          }
+          
+        }
       }
     }
     let displayColumns = ['name', 'username', 'text', 'score', 'PolarityMeter'];
