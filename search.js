@@ -44,8 +44,8 @@ async function myFunc() {
     }
 
     //create new query link ???
-    console.log(data.spellcheck.suggestions[1].suggestion[0].word)
-    var suggestedTerm = data.spellcheck.suggestions[1].suggestion[0].word;
+    //console.log(data.spellcheck.suggestions[1].suggestion[0].word)
+    //var suggestedTerm = data.spellcheck.suggestions[1].suggestion[0].word;
     // Output
     if(!correctlySpelled){
       var sendNewQuery = document.getElementById("sendNewQuery");
@@ -57,6 +57,7 @@ async function myFunc() {
         //sendNewQuery.innerHTML = "Query not found, did you mean " + "<a href='"+newURL+"'>"+suggestedTerm+"</a>";
         //sendNewQuery.innerHTML = "Query not found, please try again!"
         //sendNewQuery.innerHTML = "Query not found, did you mean " + "<a href='"+"'>"+suggestedTerm+"</a>";
+        var suggestedTerm = data.spellcheck.suggestions[1].suggestion[0].word;
         sendNewQuery.innerHTML = "Query not found , did you mean : " + "<a href='#' id='newSearchTerm' onclick='newSearch()'>"+ suggestedTerm + "</a>";
       }
     }
