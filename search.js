@@ -1,6 +1,6 @@
 async function myFunc() {
     // let url = 'http://localhost:8983/solr/tweets/query?defType=dismax&indent=true&rows=100&df=Text&fl=*,score&debugQuery=true&q.op=OR&q=';
-    let url1 = 'http://localhost:8983/solr/CZ4034/query?defType=dismax&indent=true&rows=100&df=';
+    let url1 = 'http://localhost:8983/solr/tweets/query?defType=dismax&indent=true&rows=100&df=';
     let url2 = '&fl=*,score&debugQuery=true&q.op=OR&q=';
     let url3 = '&fq=PolarityMeter:';
     let query = document.getElementById('userSearchQuery');
@@ -19,6 +19,8 @@ async function myFunc() {
     div3.innerHTML = "";
     var div4 = document.getElementById('chartContainer');
     div4.innerHTML = "";
+    var div5 = document.getElementById('chartContainer2');
+    div5.innerHTML = "";
     //Emptying the current results, incase of requery
     //console.log(url)
     var response = await fetch(url);
@@ -33,31 +35,44 @@ async function myFunc() {
     // console.log(data.debug);
     var querySpeed = data.debug.timing.time;
     console.log(data)
-
     var correctlySpelled = data.spellcheck.correctlySpelled;
     if(!correctlySpelled){
       if(data.spellcheck.collations.length != 0){
-        //console.log(data.spellcheck.collations[1].collationQuery);
-        var suggestedQuery = data.spellcheck.collations[1].collationQuery;
-        //var urlNew = url1+queryField.value+url2+newQuery;
+        console.log(data.spellcheck.collations[1].collationQuery);
+        var newQuery = data.spellcheck.collations[1].collationQuery;
+        var urlNew = url1+queryField.value+url2+newQuery;
         }
-        else var suggestedQuery = null;
+        else var newQuery = null;
     }
+
+    //create new query link ???
     //console.log(data.spellcheck.suggestions[1].suggestion[0].word)
     //var suggestedTerm = data.spellcheck.suggestions[1].suggestion[0].word;
     // Output
     if(!correctlySpelled){
       var sendNewQuery = document.getElementById("sendNewQuery");
-      if(suggestedQuery != null){
-            sendNewQuery.innerHTML = "Query not found , did you mean : " + "<a href='#' id='newSearchTerm' onclick='newSearch()'>"+ suggestedQuery + "</a>";
+      if(newQuery != null){
+        sendNewQuery.innerHTML = urlNew;
       }
       else{
-        var num = data.response.numFound;
-        //console.log(num)
-        if(num == 0){
-        sendNewQuery.innerHTML = "Query not found , please type another term"; 
-       
+        //var newURL = url1 + suggestedTerm + url2+query.value + url3 + queryFilter.value;
+        //sendNewQuery.innerHTML = "Query not found, did you mean " + "<a href='"+newURL+"'>"+suggestedTerm+"</a>";
+        //sendNewQuery.innerHTML = "Query not found, please try again!"
+        //sendNewQuery.innerHTML = "Query not found, did you mean " + "<a href='"+"'>"+suggestedTerm+"</a>";
+        console.log(data.spellcheck.suggestions)
+        if(data.spellcheck.suggestions.length != 0){
+          var suggestedTerm = data.spellcheck.suggestions[1].suggestion[0].word;
+          sendNewQuery.innerHTML = "Query not found , did you mean : " + "<a href='#' id='newSearchTerm' onclick='newSearch()'>"+ suggestedTerm + "</a>";
         }
+        else{
+          var num = data.response.numFound;
+          //console.log(num)
+          if(num == 0){
+            sendNewQuery.innerHTML = "Query not found , please type another term";
+          }
+          
+        }
+        
       }
     }
     let displayColumns = ['name', 'username', 'text', 'score', 'PolarityMeter', 'Subjectivity'];
@@ -78,7 +93,7 @@ async function myFunc() {
     }
 
     //Initialize data for the chart
-    let c1 = 0, c2 = 0, c3 = 0, c4 = 0, c5 = 0, d1 = 0, d2 = 0;
+    let c1 = 0, c2 = 0, c3 = 0, c4 = 0, c5 = 0, c6 = 0, c7 = 0;
 
     //Creating the Base Table
     var table = document.createElement("table");
@@ -97,6 +112,11 @@ async function myFunc() {
     //Adding Rows
     for (var i = 0; i < myData.length; i++) {
       tr = table.insertRow(-1);
+      if(myData[i].Subjectivity[0] === 0) {
+        c6++;
+      }else{
+        c7++;
+      }
       for (var j = 0; j < col.length; j++) {
         var tabCell = tr.insertCell(-1);
         tabCell.innerHTML = myData[i][col[j]];
@@ -114,16 +134,27 @@ async function myFunc() {
             break;
           }
         }
-        if(col[j] === 'Subjectivity'){
-            switch(myData[i][col[j]][0]){
-                case 0: d1++;
-                break;
-                case 1: d2++;
-                break;
-            }
-        }
       }
     }
+    //console.log(myData[0].Subjectivity);
+    //console.log(myData[0].Subjectivity[0]);
+    //console.log(c6)
+    //console.log(c7)
+    var subData = [
+        {x: "0", value: c6},
+        {x: "1", value: c7},
+    ];
+    var chart2 = anychart.pie();
+    chart2.title("Subjectivity Chart");
+    chart2.data(subData);
+    chart2.legend().itemsLayout("horizontal");
+        //set legend position
+        //chart.legend().position("bottom");
+        chart2.legend().fontSize(10);
+        chart2.legend().fontWeight(600);
+      // display the chart in the container
+      chart2.container('chartContainer2');
+      chart2.draw();
     //console.log("Neutral: " +c1);
     //console.log("Slightly Pro-Ukraine: " + c2);
     //console.log("Pro-Ukraine: " + c3);
@@ -139,7 +170,7 @@ async function myFunc() {
         {x: "Slightly Pro-Russia", value: c4},
         {x: "Pro-Russia", value: c5}
       ];
-      //semantic opinion piechart
+      // create the chart
       var chart = anychart.pie();
       // set the chart title
       chart.title("Semantic Category"); 
@@ -155,29 +186,6 @@ async function myFunc() {
       // display the chart in the container
       chart.container('chartContainer');
       chart.draw();
-      
-      //subjectivity piechart
-      var data2 = [
-        {x: "0", value: d1},
-        {x: "1", value: d2}
-      ];
-      // create the chart
-      var chart2 = anychart.pie();
-      // set the chart title
-      chart2.title("Subjectivity"); 
-      // add the data
-      chart2.data(data2);
-      //set items layout
-      chart2.legend().itemsLayout("horizontal");
-        //set legend position
-        //chart.legend().position("bottom");
-        chart2.legend().fontSize(10);
-        chart2.legend().fontWeight(600);
-        var bounds = chart.bounds(0,0,500,500);
-      // display the chart in the container
-      chart2.container('chartContainer2');
-      chart2.draw();
-      
     
     //Results Title
     var resultTitle= document.getElementById("resultTitleText");
@@ -229,7 +237,7 @@ async function myFunc() {
 async function newSearch(){
   var newTerm = document.getElementById("newSearchTerm").text;
   //alert("Hello! I am an alert box!!"+ newTerm+"");
-  let url1 = 'http://localhost:8983/solr/CZ4034/query?defType=dismax&indent=true&rows=100&df=';
+  let url1 = 'http://localhost:8983/solr/tweets/query?defType=dismax&indent=true&rows=100&df=';
     let url2 = '&fl=*,score&debugQuery=true&q.op=OR&q=';
     let url3 = '&fq=PolarityMeter:';
     let query = newTerm;
@@ -246,6 +254,8 @@ async function newSearch(){
     div3.innerHTML = "";
     var div4 = document.getElementById('chartContainer');
     div4.innerHTML = "";
+    var div5 = document.getElementById('chartContainer2');
+    div5.innerHTML = "";
     var response = await fetch(url);
     var data = await response.json();
     var noOfDocs = data.response.numFound
@@ -253,7 +263,7 @@ async function newSearch(){
     var querySpeed = data.debug.timing.time;
   //console.log(myData)
   sendNewQuery.innerHTML = "Displaying results for "+ query +" instead";
-    let displayColumns = ['name', 'username', 'text', 'score', 'PolarityMeter'];
+    let displayColumns = ['name', 'username', 'text', 'score', 'PolarityMeter', 'Subjectivity'];
     myData = myData.map(x => {
       let newObj = {};
       for (col of displayColumns) {
@@ -267,10 +277,9 @@ async function newSearch(){
         if (col.indexOf(key) === -1) {
           col.push(key);
         }
-
       }
     }
-    let c1 = 0, c2 = 0, c3 = 0, c4 = 0, c5 = 0, d1 = 0, d2 = 0;
+    let c1 = 0, c2 = 0, c3 = 0, c4 = 0, c5 = 0, c6 = 0, c7 = 0;
     var table = document.createElement("table");
     table.classList.add("table");
     table.classList.add("table-striped");
@@ -285,6 +294,12 @@ async function newSearch(){
     }
     for (var i = 0; i < myData.length; i++) {
       tr = table.insertRow(-1);
+      console.log(myData[i])
+      if(myData[i].Subjectivity[0] === 0) {
+        c6++;
+      }else{
+        c7++;
+      }
       for (var j = 0; j < col.length; j++) {
         var tabCell = tr.insertCell(-1);
         tabCell.innerHTML = myData[i][col[j]];
@@ -302,16 +317,20 @@ async function newSearch(){
             break;
           }
         }
-        if(col[j] === 'Subjectivity'){
-            switch(myData[i][col[j]][0]){
-                case 0: d1++;
-                break;
-                case 1: d2++;
-                break;
-            }
-        }
       }
     }
+    var subData = [
+      {x: "0", value: c6},
+      {x: "1", value: c7},
+  ];
+  var chart2 = anychart.pie();
+  chart2.title("Subjectivity Chart");
+  chart2.data(subData);
+  chart2.legend().itemsLayout("horizontal");
+      chart2.legend().fontSize(10);
+      chart2.legend().fontWeight(600);
+    chart2.container('chartContainer2');
+    chart2.draw();
       var data = [
         {x: "Neutral", value: c1},
         {x: "Slightly Pro-Ukraine", value: c2},
@@ -328,20 +347,6 @@ async function newSearch(){
         var bounds = chart.bounds(0,0,500,500);
       chart.container('chartContainer');
       chart.draw();
-      
-      var data2 = [
-        {x: "0", value: d1},
-        {x: "1", value: d2}
-      ];
-      var chart2 = anychart.pie();
-      chart2.title("Subjectivity"); 
-      chart2.data(data2);
-      chart2.legend().itemsLayout("horizontal");
-        chart2.legend().fontSize(10);
-        chart2.legend().fontWeight(600);
-        var bounds = chart.bounds(0,0,500,500);
-      chart2.container('chartContainer2');
-      chart2.draw();
 
     var resultTitle= document.getElementById("resultTitleText");
     var num = (noOfDocs >= 100) ? 100 : noOfDocs;
