@@ -1,6 +1,6 @@
 async function myFunc() {
     // let url = 'http://localhost:8983/solr/tweets/query?defType=dismax&indent=true&rows=100&df=Text&fl=*,score&debugQuery=true&q.op=OR&q=';
-    let url1 = 'http://localhost:8983/solr/tweets/query?defType=dismax&indent=true&rows=100&df=';
+    let url1 = 'http://localhost:8983/solr/CZ4034/query?defType=dismax&indent=true&rows=100&df=';
     let url2 = '&fl=*,score&debugQuery=true&q.op=OR&q=';
     let url3 = '&fq=PolarityMeter:';
     let query = document.getElementById('userSearchQuery');
@@ -60,7 +60,7 @@ async function myFunc() {
         }
       }
     }
-    let displayColumns = ['name', 'username', 'text', 'score', 'PolarityMeter'];
+    let displayColumns = ['name', 'username', 'text', 'score', 'PolarityMeter', 'Subjectivity'];
     myData = myData.map(x => {
       let newObj = {};
       for (col of displayColumns) {
@@ -78,7 +78,7 @@ async function myFunc() {
     }
 
     //Initialize data for the chart
-    let c1 = 0, c2 = 0, c3 = 0, c4 = 0, c5 = 0;
+    let c1 = 0, c2 = 0, c3 = 0, c4 = 0, c5 = 0, d1 = 0, d2 = 0;
 
     //Creating the Base Table
     var table = document.createElement("table");
@@ -114,6 +114,14 @@ async function myFunc() {
             break;
           }
         }
+        if(col[j] === 'Subjectivity'){
+            switch(myData[i][col[j]][0]){
+                case 0: d1++;
+                break;
+                case 1: d2++;
+                break;
+            }
+        }
       }
     }
     //console.log("Neutral: " +c1);
@@ -131,7 +139,7 @@ async function myFunc() {
         {x: "Slightly Pro-Russia", value: c4},
         {x: "Pro-Russia", value: c5}
       ];
-      // create the chart
+      //semantic opinion piechart
       var chart = anychart.pie();
       // set the chart title
       chart.title("Semantic Category"); 
@@ -147,7 +155,29 @@ async function myFunc() {
       // display the chart in the container
       chart.container('chartContainer');
       chart.draw();
-
+      
+      //subjectivity piechart
+      var data2 = [
+        {x: "0", value: d1},
+        {x: "1", value: d2}
+      ];
+      // create the chart
+      var chart2 = anychart.pie();
+      // set the chart title
+      chart2.title("Subjectivity"); 
+      // add the data
+      chart2.data(data2);
+      //set items layout
+      chart2.legend().itemsLayout("horizontal");
+        //set legend position
+        //chart.legend().position("bottom");
+        chart2.legend().fontSize(10);
+        chart2.legend().fontWeight(600);
+        var bounds = chart.bounds(0,0,500,500);
+      // display the chart in the container
+      chart2.container('chartContainer2');
+      chart2.draw();
+      
     
     //Results Title
     var resultTitle= document.getElementById("resultTitleText");
@@ -199,7 +229,7 @@ async function myFunc() {
 async function newSearch(){
   var newTerm = document.getElementById("newSearchTerm").text;
   //alert("Hello! I am an alert box!!"+ newTerm+"");
-  let url1 = 'http://localhost:8983/solr/tweets/query?defType=dismax&indent=true&rows=100&df=';
+  let url1 = 'http://localhost:8983/solr/CZ4034/query?defType=dismax&indent=true&rows=100&df=';
     let url2 = '&fl=*,score&debugQuery=true&q.op=OR&q=';
     let url3 = '&fq=PolarityMeter:';
     let query = newTerm;
@@ -240,7 +270,7 @@ async function newSearch(){
 
       }
     }
-    let c1 = 0, c2 = 0, c3 = 0, c4 = 0, c5 = 0;
+    let c1 = 0, c2 = 0, c3 = 0, c4 = 0, c5 = 0, d1 = 0, d2 = 0;
     var table = document.createElement("table");
     table.classList.add("table");
     table.classList.add("table-striped");
@@ -272,6 +302,14 @@ async function newSearch(){
             break;
           }
         }
+        if(col[j] === 'Subjectivity'){
+            switch(myData[i][col[j]][0]){
+                case 0: d1++;
+                break;
+                case 1: d2++;
+                break;
+            }
+        }
       }
     }
       var data = [
@@ -290,6 +328,20 @@ async function newSearch(){
         var bounds = chart.bounds(0,0,500,500);
       chart.container('chartContainer');
       chart.draw();
+      
+      var data2 = [
+        {x: "0", value: d1},
+        {x: "1", value: d2}
+      ];
+      var chart2 = anychart.pie();
+      chart2.title("Subjectivity"); 
+      chart2.data(data2);
+      chart2.legend().itemsLayout("horizontal");
+        chart2.legend().fontSize(10);
+        chart2.legend().fontWeight(600);
+        var bounds = chart.bounds(0,0,500,500);
+      chart2.container('chartContainer2');
+      chart2.draw();
 
     var resultTitle= document.getElementById("resultTitleText");
     var num = (noOfDocs >= 100) ? 100 : noOfDocs;
