@@ -33,37 +33,30 @@ async function myFunc() {
     // console.log(data.debug);
     var querySpeed = data.debug.timing.time;
     console.log(data)
+
     var correctlySpelled = data.spellcheck.correctlySpelled;
     if(!correctlySpelled){
       if(data.spellcheck.collations.length != 0){
-        console.log(data.spellcheck.collations[1].collationQuery);
-        var newQuery = data.spellcheck.collations[1].collationQuery;
-        var urlNew = url1+queryField.value+url2+newQuery;
+        //console.log(data.spellcheck.collations[1].collationQuery);
+        var suggestedQuery = data.spellcheck.collations[1].collationQuery;
+        //var urlNew = url1+queryField.value+url2+newQuery;
         }
-        else var newQuery = null;
+        else var suggestedQuery = null;
     }
-
-    //create new query link ???
     //console.log(data.spellcheck.suggestions[1].suggestion[0].word)
     //var suggestedTerm = data.spellcheck.suggestions[1].suggestion[0].word;
     // Output
     if(!correctlySpelled){
       var sendNewQuery = document.getElementById("sendNewQuery");
-      if(newQuery != null){
-        sendNewQuery.innerHTML = urlNew;
+      if(suggestedQuery != null){
+            sendNewQuery.innerHTML = "Query not found , did you mean : " + "<a href='#' id='newSearchTerm' onclick='newSearch()'>"+ suggestedQuery + "</a>";
       }
       else{
-                if(data.spellcheck.suggestions.length != 0){
-          var suggestedTerm = data.spellcheck.suggestions[1].suggestion[0].word;
-          sendNewQuery.innerHTML = "Query not found , did you mean : " + "<a href='#' id='newSearchTerm' onclick='newSearch()'>"+ suggestedTerm + "</a>";
-        }
-        else{
-          var num = data.response.numFound;
-          //console.log(num)
-          if(num == 0){
-            sendNewQuery.innerHTML = "Query not found , please type another term";
-          }
-          
+        var num = data.response.numFound;
+        //console.log(num)
+        if(num == 0){
+        sendNewQuery.innerHTML = "Query not found , please type another term"; 
+       
         }
       }
     }
@@ -244,6 +237,7 @@ async function newSearch(){
         if (col.indexOf(key) === -1) {
           col.push(key);
         }
+
       }
     }
     let c1 = 0, c2 = 0, c3 = 0, c4 = 0, c5 = 0;
