@@ -43,14 +43,11 @@ async function myFunc() {
         }
         else var suggestedQuery = null;
     }
-
     //console.log(data.spellcheck.suggestions[1].suggestion[0].word)
     //var suggestedTerm = data.spellcheck.suggestions[1].suggestion[0].word;
     // Output
     if(!correctlySpelled){
       var sendNewQuery = document.getElementById("sendNewQuery");
-      //console.log("spelling error query" + suggestedQuery);    
-      
       if(suggestedQuery != null){
             sendNewQuery.innerHTML = "Query not found , did you mean : " + "<a href='#' id='newSearchTerm' onclick='newSearch()'>"+ suggestedQuery + "</a>";
       }
@@ -59,6 +56,7 @@ async function myFunc() {
         //console.log(num)
         if(num == 0){
         sendNewQuery.innerHTML = "Query not found , please type another term"; 
+       
         }
       }
     }
@@ -239,6 +237,7 @@ async function newSearch(){
         if (col.indexOf(key) === -1) {
           col.push(key);
         }
+
       }
     }
     let c1 = 0, c2 = 0, c3 = 0, c4 = 0, c5 = 0;
