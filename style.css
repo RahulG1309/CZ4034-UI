@@ -1,40 +1,40 @@
- #title {
-    text-align: center;
- }
+#title {
+  text-align: center;
+}
 
- #navBarText {
-    color: white;
-    margin-left: 10px;
-  }
+#navBarText {
+  color: white;
+  margin-left: 10px;
+}
 
-  #chartdiv { 
-    width: 100%; 
-    height: 300px; 
-  }
+#chartdiv { 
+  width: 100%; 
+  height: 300px; 
+}
 
-  body {
-    padding-top: 65px;
-  }
+body {
+  padding-top: 65px;
+}
 
-  .container {
-      margin-top: 10px;
-  }
+.container {
+    margin-top: 10px;
+}
 
-  .card {
-    border-radius: 4px;
-    background: #fff;
-    box-shadow: 0 6px 10px rgba(0, 0, 0, .08), 0 0 6px rgba(0, 0, 0, .05);
-    transition: .3s transform cubic-bezier(.155, 1.105, .295, 1.12), .3s box-shadow, .3s -webkit-transform cubic-bezier(.155, 1.105, .295, 1.12);
-    padding: 14px 80px 18px 36px;
-    cursor: pointer;
-  }
+.card {
+  border-radius: 4px;
+  background: #fff;
+  box-shadow: 0 6px 10px rgba(0, 0, 0, .08), 0 0 6px rgba(0, 0, 0, .05);
+  transition: .3s transform cubic-bezier(.155, 1.105, .295, 1.12), .3s box-shadow, .3s -webkit-transform cubic-bezier(.155, 1.105, .295, 1.12);
+  padding: 14px 80px 18px 36px;
+  cursor: pointer;
+}
 
-  .card:hover {
-    transform: scale(1.05);
-    box-shadow: 0 10px 20px rgba(0, 0, 0, .12), 0 4px 8px rgba(0, 0, 0, .06);
-  }
+.card:hover {
+  transform: scale(1.05);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, .12), 0 4px 8px rgba(0, 0, 0, .06);
+}
 
- /* Style the button that is used to open and close the collapsible content */
+/* Style the button that is used to open and close the collapsible content */
 .advanced-settings {
   background-color: #777;
   color: white;
@@ -68,12 +68,7 @@
   transition: max-height 0.2s ease-out;
   background-color: #f1f1f1;
 }
-#container {
-  width: 100%;
-  height: 100%;
-  margin: 0;
-  padding: 0;
-}
+
 .left-half {
   position: absolute;
   width: 50%;
@@ -83,4 +78,20 @@
   position: absolute;
   right: 0px;
   width: 50%;
+  display: inline-block;
+  vertical-align: top;
+}
+#chartContainer{
+  display: table-row;
+  width: 100%;
+  height:500px;
+}
+#chartContainer2{
+  display: table-row;
+  width: 100%;
+  height:500px;
+}
+#chartsContainer{
+  height:100%;
+  display:table;
 }
