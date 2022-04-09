@@ -29,7 +29,7 @@ am5.ready(async function() {
       }) 
     }, 5000) 
      
-    let url = "http://localhost:8983/solr/tweets/query?q=*:*&q.op=OR&indent=true&facet=true&facet.field=text&facet.query=*:*"; 
+    let url = "http://localhost:8983/solr/CZ4034/query?q=*:*&q.op=OR&indent=true&facet=true&facet.field=text&facet.query=*:*"; 
     var response = await fetch(url); 
     var data = await response.json(); 
     const values = {}; 
