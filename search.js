@@ -224,7 +224,7 @@ async function newSearch(){
     var myData = data.response.docs
     var querySpeed = data.debug.timing.time;
   //console.log(myData)
-  //sendNewQuery.innerHTML = "Displaying results for "+ query +" instead";
+  sendNewQuery.innerHTML = "Displaying results for "+ query +" instead";
     let displayColumns = ['name', 'username', 'text', 'score', 'PolarityMeter'];
     myData = myData.map(x => {
       let newObj = {};
