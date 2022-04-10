@@ -8,6 +8,7 @@ Direct to the solr-8.11.1 folder and start the Solr server
 
 `cd solr-8.11.1/./bin/solr start`
 
-The existing tweet data has already been indexed in Solr. 
+The existing tweet data has already been indexed in Solr. Else you may refer to the [link](https://docs.google.com/document/d/1sRy8-xrScE2Xy1Q2WLmYn-RQmQSVojHeWjfbsTPORUc/edit?usp=sharing) on how to index the documents in Solr.
+
 
 Open index.html in your browser
